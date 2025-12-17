@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Selamat Ulang Tahun Sayangku</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    * {
+      font-family: 'Poppins', sans-serif
+    }
+
+    /* ===== THEME ===== */
+    body {
+      background: linear-gradient(180deg, #2b1b3f, #4c1d95, #831843);
+      color: white;
+      overflow-x: hidden;
+      transition: all .6s ease;
+    }
+
+    body.star {
+      background: linear-gradient(180deg, #020617, #020617, #0f172a);
+    }
+
+    /* ===== PARTICLES ===== */
+    .particle {
+      position: fixed;
+      top: -10vh;
+      animation: fall linear infinite;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    @keyframes fall {
+      to {
+        transform: translateY(110vh) rotate(360deg)
+      }
+    }
+
+    .heart {
+      color: #fb7185;
+      font-size: 18px;
+    }
+
+    .star-p {
+      color: #fde68a;
+      font-size: 14px;
+    }
+
+    /* ===== CONFETTI ===== */
+    .confetti {
+      position: fixed;
+      width: 10px;
+      height: 10px;
+      animation: confettiFall 4s linear infinite;
+      z-index: 999;
+    }
+
+    @keyframes confettiFall {
+      from {
+        transform: translateY(-100vh) rotate(0)
+      }
+
+      to {
+        transform: translateY(100vh) rotate(360deg)
+      }
+    }
+
+    /* ===== NAME ===== */
+    .name-animate {
+      animation: namePop 1.8s ease forwards;
+      opacity: 0;
+    }
+
+    @keyframes namePop {
+      0% {
+        opacity: 0;
+        transform: scale(.6)
+      }
+
+      70% {
+        opacity: 1;
+        transform: scale(1.15)
+      }
+
+      100% {
+        opacity: 1;
+        transform: scale(1)
+      }
+    }
+
+    /* ===== CANDLE ===== */
+    .candle {
+      width: 22px;
+      height: 70px;
+      background: linear-gradient(#fff7cc, #fef3c7);
+      border-radius: 12px;
+      position: relative;
+      box-shadow: 0 0 25px rgba(255, 215, 0, .6);
+    }
+
+    .flame {
+      position: absolute;
+      top: -28px;
+      left: 50%;
+      width: 18px;
+      height: 28px;
+      background: radial-gradient(circle, #fff, #ffd700, #ff7a00, #ff4500);
+      border-radius: 50%;
+      transform: translateX(-50%);
+      animation: flicker .12s infinite;
+    }
+
+    @keyframes flicker {
+      0% {
+        transform: translateX(-50%) scale(1)
+      }
+
+      50% {
+        transform: translateX(-50%) scale(.9)
+      }
+
+      100% {
+        transform: translateX(-50%) scale(1)
+      }
+    }
+
+  /* ===== TIMELINE DESKTOP ===== */
+.timeline-line {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  width: 4px;
+  height: 100%;
+  transform: translateX(-50%);
+  background: linear-gradient(to bottom, transparent, #fb7185, transparent);
+  box-shadow: 0 0 20px rgba(251,113,133,.6);
+}
+
+/* ===== TIMELINE MOBILE ===== */
+.timeline-line-mobile {
+  position: absolute;
+  left: 1.25rem; /* sejajar dot */
+  top: 0;
+  width: 3px;
+  height: 100%;
+  background: linear-gradient(to bottom, transparent, #fb7185, transparent);
+  box-shadow: 0 0 15px rgba(251,113,133,.6);
+}
+
+/* DOT */
+.timeline-dot {
+  position: relative;
+  z-index: 20;
+  width: 18px;
+  height: 18px;
+  background: #fb7185;
+  border-radius: 9999px;
+  box-shadow: 0 0 20px rgba(251,113,133,.9);
+}
+.timeline-line,
+.timeline-line-mobile {
+  z-index: 0;
+}
+
+
+
+  </style>
+</head>
+
+<body id="body">
+
+  <!-- MUSIC -->
+  <audio id="bgMusic" loop>
+    <source src="hbd.mp3" type="audio/mpeg">
+  </audio>
+
+  <!-- TOGGLE -->
+  <button id="themeToggle" class="fixed top-4 right-4 z-50 bg-white/80 text-slate-800
+         px-4 py-2 rounded-full shadow backdrop-blur">
+    🌙
+  </button>
+
+  <!-- HOME -->
+  <section class="relative min-h-screen flex flex-col justify-center items-center text-center px-6 z-10">
+
+    <h1 class="text-4xl md:text-6xl font-bold text-pink-300 mb-4">
+      Hadiah Untukmu 🎁
+    </h1>
+
+    <p class="text-pink-100 mb-6">Tunggu sampai waktunya tiba 💖</p>
+
+    <div class="flex gap-8 mb-8">
+      <div class="candle">
+        <div class="flame"></div>
+      </div>
+      <div class="candle">
+        <div class="flame"></div>
+      </div>
+      <div class="candle">
+        <div class="flame"></div>
+      </div>
+    </div>
+
+    <div id="countdown" class="text-3xl font-bold text-pink-300 mb-8">
+      00 : 00 : 10
+    </div>
+
+    <div id="envelope" class="relative w-64 h-44 bg-pink-400 rounded-2xl shadow-2xl
+           opacity-40 pointer-events-none transition">
+
+      <div id="flap" class="absolute top-0 left-0 w-full h-1/2 bg-pink-500 origin-top transition"
+        style="clip-path: polygon(0 0,100% 0,50% 100%);"></div>
+
+      <div class="absolute inset-0 flex items-center justify-center">
+        <span class="font-semibold text-white">Menunggu waktu...</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- LETTER -->
+  <div id="overlay" class="fixed inset-0 bg-black/70 backdrop-blur flex items-center justify-center
+ opacity-0 pointer-events-none transition z-50">
+
+    <div class="bg-white text-slate-800 rounded-3xl p-8 max-w-xl mx-4 shadow-2xl text-center">
+
+      <h2 id="nameTitle" class="text-4xl font-bold text-pink-600 mb-4">
+        Sayangku 💖
+      </h2>
+
+      <p id="typedText" class="leading-relaxed min-h-[180px]"></p>
+
+      <button id="close" class="mt-8 px-6 py-3 bg-pink-500 text-white rounded-full">
+        Tutup
+      </button>
+    </div>
+  </div>
+
+  <!-- ===== CINEMATIC GALLERY (LOCKED) ===== -->
+  <section id="gallery" class="relative py-28 px-6 bg-black/30 overflow-hidden">
+
+    <!-- LOCK OVERLAY -->
+    <div id="galleryLock" class="absolute inset-0 z-30 bg-black/80 backdrop-blur
+           flex flex-col items-center justify-center text-center
+           transition-all duration-700">
+
+      <div class="text-5xl mb-4">🔒</div>
+      <p class="text-xl text-pink-200 font-semibold">
+        Gallery ini akan terbuka<br>setelah surat dibaca 🤍
+      </p>
+    </div>
+
+    <!-- TITLE -->
+    <h2 class="text-4xl font-bold text-center mb-6 text-pink-300">
+      Tentang Dirimu ✨
+    </h2>
+
+    <p class="text-center text-pink-100 mb-14">
+      Setiap foto ini adalah alasan aku jatuh cinta
+    </p>
+
+    <!-- GALLERY -->
+    <div class="max-w-6xl mx-auto
+           grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+
+      <!-- PHOTO CARD -->
+      <div class="group relative overflow-hidden rounded-3xl shadow-2xl">
+        <img src="ss1.jpg" class="w-full h-96 object-cover
+               transform group-hover:scale-110 transition duration-700">
+        <div class="absolute inset-0 bg-black/40 opacity-0
+               group-hover:opacity-100 transition flex items-end p-6">
+          <p class="text-white font-semibold">Senyummu 🤍</p>
+        </div>
+      </div>
+
+      <div class="group relative overflow-hidden rounded-3xl shadow-2xl">
+        <img src="ss2.jpg" class="w-full h-96 object-cover group-hover:scale-110 transition duration-700">
+        <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition flex items-end p-6">
+          <p class="text-white font-semibold">Caramu tertawa</p>
+        </div>
+      </div>
+
+      <div class="group relative overflow-hidden rounded-3xl shadow-2xl">
+        <img src="ss3.jpg" class="w-full h-96 object-cover group-hover:scale-110 transition duration-700">
+        <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition flex items-end p-6">
+          <p class="text-white font-semibold">Hari biasa, tapi spesial</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ===== TIMELINE KENANGAN (CINEMATIC) ===== -->
+<section class="relative py-36 px-6 overflow-hidden">
+
+  <h2 class="text-4xl md:text-5xl font-bold text-center text-pink-300 mb-6">
+    Kenangan Kita 💍
+  </h2>
+  <p class="text-center text-pink-100 mb-20">
+    Bukan tentang seberapa cepat,<br class="md:hidden">
+    tapi seberapa berarti.
+  </p>
+
+  <div class="relative max-w-5xl mx-auto">
+     <!-- GARIS DESKTOP -->
+  <div class="timeline-line hidden md:block"></div>
+
+  <!-- GARIS MOBILE -->
+  <div class="timeline-line-mobile md:hidden"></div>
+
+
+    <!-- ITEM 1 -->
+    <div class="relative z-10 flex flex-col md:flex-row items-start md:items-center mb-24 pl-16 md:pl-0">
+
+      <div class="md:w-1/2 md:pr-16 text-right">
+        <h3 class="text-xl font-semibold text-pink-300">Pertama Kenal</h3>
+        <p class="text-pink-100 mt-3">
+          Dari obrolan sederhana,<br>
+          tanpa rencana,<br>
+          ternyata semesta sedang bekerja diam-diam.
+        </p>
+      </div>
+
+      <div class="timeline-dot absolute left-4 md:static md:left-auto my-6 md:my-0"></div>
+
+      <div class="md:w-1/2 md:pl-16">
+        <span class="inline-block bg-pink-500/20 text-pink-300 px-4 py-1 rounded-full text-sm">
+          Awal Segalanya ✨
+        </span>
+      </div>
+    </div>
+
+    <!-- ITEM 2 -->
+    <div class="relative z-10 flex flex-col md:flex-row items-start md:items-center mb-24 pl-16 md:pl-0">
+      <div class="md:w-1/2 md:pl-16">
+        <h3 class="text-xl font-semibold text-pink-300">Pertama Chat</h3>
+        <p class="text-pink-100 mt-3">
+          Pesan singkat yang berubah jadi kebiasaan,<br>
+          lalu jadi sesuatu yang selalu aku tunggu.
+        </p>
+      </div>
+
+      <div class="timeline-dot absolute left-4 md:static md:left-auto my-6 md:my-0"></div>
+
+      <div class="md:w-1/2 md:pr-16 text-right">
+        <span class="inline-block bg-pink-500/20 text-pink-300 px-4 py-1 rounded-full text-sm">
+          Langkah Kecil 💬
+        </span>
+      </div>
+    </div>
+
+    <!-- ITEM 3 -->
+    <div class="relative z-10 flex flex-col md:flex-row items-start md:items-center mb-24 pl-16 md:pl-0">
+      <div class="md:w-1/2 md:pr-16 text-right">
+        <h3 class="text-xl font-semibold text-pink-300">Pertama Jalan</h3>
+        <p class="text-pink-100 mt-3">
+          Degup yang tidak bisa disembunyikan,<br>
+          dan senyum yang tidak perlu dijelaskan.
+        </p>
+      </div>
+
+      <div class="timeline-dot absolute left-4 md:static md:left-auto my-6 md:my-0"></div>
+
+      <div class="md:w-1/2 md:pl-16">
+        <span class="inline-block bg-pink-500/20 text-pink-300 px-4 py-1 rounded-full text-sm">
+          Momen Berani 🌸
+        </span>
+      </div>
+    </div>
+
+    <!-- ITEM 4 -->
+    <div class="relative z-10 flex flex-col md:flex-row items-start md:items-center mb-24 pl-16 md:pl-0">
+      <div class="md:w-1/2 md:pl-16">
+        <h3 class="text-xl font-semibold text-pink-300">
+          Hari Ini
+        </h3>
+        <p class="text-pink-100 mt-3">
+          Saat aku sadar,<br>
+          bersamamu bukan hanya bahagia,<br>
+          tapi terasa seperti pulang.
+        </p>
+      </div>
+
+      <div class="timeline-dot absolute left-4 md:static md:left-auto my-6 md:my-0"></div>
+
+      <div class="md:w-1/2 md:pr-16 text-right">
+        <span class="inline-block bg-pink-500/30 text-pink-200 px-4 py-1 rounded-full text-sm font-semibold">
+          Momen Paling Berarti 🤍
+        </span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+  <!-- ===== VOICE MESSAGE ===== -->
+  <section class="py-32 px-6 text-center">
+    <h2 class="text-4xl font-bold text-pink-300 mb-6">
+      Dengarkan Pesanku 🤍
+    </h2>
+
+    <p class="text-pink-100 mb-10 max-w-xl mx-auto">
+      Ada hal-hal yang terlalu jujur
+      untuk ditulis… jadi biarkan suaraku yang bicara.
+    </p>
+
+    <audio id="voiceAudio" src="voice.mp3"></audio>
+
+    <button id="voiceBtn" class="px-10 py-4 rounded-full bg-pink-500 hover:bg-pink-400 transition shadow-xl">
+      ▶️ Putar Pesan Suara
+    </button>
+  </section>
+  <!-- ===== DOA UNTUKMU ===== -->
+  <section class="py-32 px-6 text-center">
+    <h2 class="text-4xl font-bold text-pink-300 mb-10">
+      Doa Untukmu 🕯️
+    </h2>
+
+    <p class="max-w-2xl mx-auto text-pink-100 leading-relaxed text-lg">
+      Aku tidak tahu doa mana yang paling tepat,
+      tapi aku tahu kamu pantas mendapatkan yang terbaik.
+
+      Semoga hatimu selalu dijaga,
+      langkahmu selalu dipeluk tenang,
+      dan hidupmu dipenuhi alasan untuk tersenyum.
+
+      Jika suatu hari kamu ragu,
+      semoga kamu ingat…
+      ada seseorang yang selalu menyebut namamu
+      dalam doa paling sunyi.
+    </p>
+  </section>
+  <!-- ===== ALASAN MENCINTAIMU ===== -->
+  <section class="py-32 px-6 text-center">
+    <h2 class="text-4xl font-bold text-pink-300 mb-10">
+      Alasan Aku Mencintaimu 💌
+    </h2>
+
+    <button id="reasonBtn" class="px-8 py-4 bg-pink-500 rounded-full shadow-lg">
+      Buka alasan sebenarnya 🤍
+    </button>
+
+    <div id="reasonBox" class="mt-12 max-w-xl mx-auto bg-white/90 text-slate-800
+           p-8 rounded-3xl shadow-2xl hidden">
+      <p id="reasonText" class="text-lg leading-relaxed"></p>
+    </div>
+  </section>
+
+  <!-- ===== WISH GENERATOR ===== -->
+  <section id="wish" class="relative py-32 px-6 text-center">
+
+    <h2 class="text-4xl md:text-5xl font-bold text-pink-300 mb-6">
+      Satu Harapan Untukmu ✨
+    </h2>
+
+    <p class="text-pink-100 mb-10 max-w-xl mx-auto">
+      Tekan tombol di bawah ini, dan biarkan semesta memilihkan
+      satu doa khusus untukmu hari ini 🤍
+    </p>
+
+    <button id="wishBtn" class="px-10 py-4 rounded-full bg-pink-500 hover:bg-pink-400
+           transition text-white text-lg shadow-xl">
+      Generate Wish 💫
+    </button>
+
+    <div id="wishBox" class="mt-12 opacity-0 scale-90 transition-all duration-700
+           max-w-2xl mx-auto bg-white/90 text-slate-800
+           p-8 rounded-3xl shadow-2xl">
+
+      <p id="wishText" class="text-lg md:text-xl leading-relaxed font-medium">
+      </p>
+    </div>
+  </section>
+  <!-- ===== ENDING SCREEN ===== -->
+  <section id="ending" class="fixed inset-0 z-[999] bg-black flex items-center justify-center
+         opacity-0 pointer-events-none transition duration-1000">
+
+    <div class="text-center px-6">
+
+      <h2 class="text-4xl md:text-6xl font-bold text-pink-300 mb-6 animate-pulse">
+        Terima Kasih 🤍
+      </h2>
+
+      <p class="text-pink-100 text-lg md:text-xl max-w-xl mx-auto mb-10">
+        Jika dunia terasa berat, ingat…
+        ada seseorang yang selalu mendoakanmu,
+        tanpa syarat, tanpa batas.
+      </p>
+
+      <p class="text-pink-400 italic">
+        — Dari aku, untukmu
+      </p>
+    </div>
+  </section>
+
+
+  <script>
+    const body = document.getElementById('body');
+    const music = document.getElementById('bgMusic');
+    const envelope = document.getElementById('envelope');
+    const overlay = document.getElementById('overlay');
+    const flap = document.getElementById('flap');
+    const typedText = document.getElementById('typedText');
+    const nameTitle = document.getElementById('nameTitle');
+    const toggle = document.getElementById('themeToggle');
+
+    let time = 10, i = 0, mode = 'heart';
+
+    /* ===== COUNTDOWN ===== */
+    const countdown = document.getElementById('countdown');
+    const timer = setInterval(() => {
+      time--;
+      countdown.textContent = `00 : 00 : ${time < 10 ? '0' + time : time}`;
+      if (time <= 0) {
+        clearInterval(timer);
+        envelope.classList.remove('opacity-40', 'pointer-events-none');
+        envelope.querySelector('span').textContent = "Klik untuk membuka 💌";
+      }
+    }, 1000);
+
+    /* ===== TYPEWRITER ===== */
+    const message = `Hari ini bukan sekadar tentang waktu yang bertambah,
+tetapi tentang kamu
+yang kehadirannya selalu membuat dunia terasa lebih hangat.
+
+Tentang senyum yang diam-diam selalu aku tunggu,
+tentang tawamu yang mampu menenangkan,
+dan tentang caramu hadir,
+tanpa berusaha, namun selalu berarti.
+
+Semoga di setiap langkahmu,
+kamu selalu menemukan bahagia.
+Semoga di setiap lelahmu,
+kamu selalu menemukan rumah.
+
+Terima kasih telah menjadi alasan
+aku percaya bahwa cinta itu nyata.
+
+Selamat ulang tahun, cintaku 🤍
+
+— Rangga Febrio`;
+
+    function typeText() {
+      if (i < message.length) {
+        typedText.textContent += message[i++];
+        setTimeout(typeText, 35);
+      }
+    }
+
+    /* ===== CONFETTI ===== */
+    function confetti() {
+      for (let i = 0; i < 60; i++) {
+        const c = document.createElement('div');
+        c.className = 'confetti';
+        c.style.left = Math.random() * 100 + 'vw';
+        c.style.backgroundColor = ['#fb7185', '#f9a8d4', '#fde68a'][Math.floor(Math.random() * 3)];
+        document.body.appendChild(c);
+        setTimeout(() => c.remove(), 4000);
+      }
+    }
+
+    /* ===== PARTICLES ===== */
+    function clearParticles() {
+      document.querySelectorAll('.particle').forEach(p => p.remove());
+    }
+    function spawnParticles() {
+      clearParticles();
+      for (let i = 0; i < 40; i++) {
+        const p = document.createElement('div');
+        p.className = 'particle ' + (mode === 'heart' ? 'heart' : 'star-p');
+        p.innerHTML = mode === 'heart' ? '💖' : '⭐';
+        p.style.left = Math.random() * 100 + 'vw';
+        p.style.animationDuration = 3 + Math.random() * 5 + 's';
+        p.style.fontSize = 12 + Math.random() * 14 + 'px';
+        document.body.appendChild(p);
+      }
+    }
+    spawnParticles();
+
+    /* ===== EVENTS ===== */
+    envelope.onclick = () => {
+      // reset sebelum buka
+      typedText.textContent = "";
+      i = 0;
+
+      flap.style.transform = 'rotateX(180deg)';
+      overlay.classList.remove('opacity-0', 'pointer-events-none');
+
+      nameTitle.classList.remove('name-animate');
+      void nameTitle.offsetWidth; // force reflow
+      nameTitle.classList.add('name-animate');
+
+      confetti();
+      typeText();
+      music.play();
+    };
+
+    document.getElementById('close').onclick = () => {
+      overlay.classList.add('opacity-0', 'pointer-events-none');
+
+      // kembalikan amplop ke bentuk awal
+      setTimeout(() => {
+        flap.style.transform = 'rotateX(0deg)';
+        typedText.textContent = "";
+        i = 0;
+      }, 400);
+    };
+
+    toggle.onclick = () => {
+      mode = mode === 'heart' ? 'star' : 'heart';
+      body.classList.toggle('star');
+      toggle.textContent = mode === 'heart' ? '🌙' : '⭐';
+      spawnParticles();
+    };
+
+    /* AUTOPLAY SAFE */
+    window.addEventListener('load', () => {
+      music.play().catch(() => {
+        document.body.addEventListener('click', () => music.play(), { once: true });
+      });
+    });
+  </script>
+  <script>
+    let letterRead = false;
+
+    // saat tombol TUTUP surat diklik
+    document.getElementById('close').addEventListener('click', () => {
+      if (!letterRead) {
+        letterRead = true;
+
+        // delay emosional
+        setTimeout(() => {
+          const lock = document.getElementById('galleryLock');
+          lock.classList.add('opacity-0');
+          setTimeout(() => lock.remove(), 800);
+
+          // scroll otomatis ke gallery
+          document.getElementById('gallery')
+            .scrollIntoView({ behavior: 'smooth' });
+
+          // confetti kecil lagi
+          confetti();
+        }, 1200);
+      }
+    });
+  </script>
+  <script>
+    /* ===== WISH GENERATOR ===== */
+    const wishes = [
+      "Semoga hatimu selalu menemukan tenang, bahkan di hari yang paling sibuk.",
+      "Semoga langkahmu ringan dan senyummu tak pernah kehilangan alasan.",
+      "Semoga semua doa kecilmu menemukan jalan pulang.",
+      "Semoga kamu selalu dikelilingi cinta, bahkan saat merasa sendiri.",
+      "Semoga hidupmu penuh kejutan indah yang tidak kamu sangka.",
+      "Semoga bahagiamu tidak tergantung pada siapa pun, kecuali dirimu sendiri."
+    ];
+
+    const wishBtn = document.getElementById('wishBtn');
+    const wishBox = document.getElementById('wishBox');
+    const wishText = document.getElementById('wishText');
+
+    wishBtn.onclick = () => {
+      const randomWish = wishes[Math.floor(Math.random() * wishes.length)];
+      wishText.textContent = randomWish;
+
+      wishBox.classList.remove('opacity-0', 'scale-90');
+      wishBox.classList.add('opacity-100', 'scale-100');
+
+      confetti();
+
+      // setelah wish muncul → ending screen
+      setTimeout(showEnding, 5000);
+    };
+
+    /* ===== ENDING SCREEN ===== */
+    function showEnding() {
+      const ending = document.getElementById('ending');
+      ending.classList.remove('opacity-0', 'pointer-events-none');
+    }
+  </script>
+  <script>
+    const voiceBtn = document.getElementById('voiceBtn');
+    const voiceAudio = document.getElementById('voiceAudio');
+
+    voiceBtn.onclick = () => {
+      if (voiceAudio.paused) {
+        voiceAudio.play();
+        voiceBtn.textContent = '⏸️ Hentikan';
+      } else {
+        voiceAudio.pause();
+        voiceBtn.textContent = '▶️ Putar Pesan Suara';
+      }
+    };
+  </script>
+  <script>
+    const reasons = [
+      "Karena caramu bertahan, bahkan saat lelah.",
+      "Karena caramu memaafkan tanpa membuatku merasa kecil.",
+      "Karena caramu tetap lembut di dunia yang keras.",
+      "Karena bersamamu, aku ingin menjadi versi terbaik dari diriku."
+    ];
+
+    let r = 0, ri = 0;
+    const reasonBtn = document.getElementById('reasonBtn');
+    const reasonText = document.getElementById('reasonText');
+    const reasonBox = document.getElementById('reasonBox');
+
+    reasonBtn.onclick = () => {
+      reasonBox.classList.remove('hidden');
+      reasonText.textContent = "";
+      ri = 0;
+
+      function typeReason() {
+        if (ri < reasons[r].length) {
+          reasonText.textContent += reasons[r][ri++];
+          setTimeout(typeReason, 40);
+        }
+      }
+
+      typeReason();
+      r = (r + 1) % reasons.length;
+    };
+  </script>
+  <script>
+    toggle.addEventListener('click', () => {
+      if (body.classList.contains('star')) {
+        music.volume = 0.3;
+      } else {
+        music.volume = 0.6;
+      }
+    });
+  </script>
+ <!-- ===== COMFORT BUTTON ===== -->
+<button id="comfortBtn"
+  class="fixed bottom-6 right-6 z-50
+         px-5 py-3 rounded-full
+         bg-gradient-to-r from-pink-500 to-rose-500
+         text-white font-semibold
+         shadow-2xl shadow-pink-500/40
+         backdrop-blur
+         transition-all duration-300
+         hover:scale-105 active:scale-95">
+  🤍 Lagi capek?
+</button>
+
+<!-- ===== COMFORT MODAL ===== -->
+<div id="comfortOverlay"
+  class="fixed inset-0 z-[999]
+         bg-black/60 backdrop-blur-sm
+         flex items-center justify-center
+         opacity-0 pointer-events-none
+         transition-all duration-500">
+
+  <div id="comfortBox"
+    class="max-w-md mx-4
+           bg-white text-slate-800
+           rounded-3xl p-8 text-center
+           shadow-2xl
+           transform scale-90 transition-all duration-500">
+
+    <div class="text-4xl mb-4">🤍</div>
+
+    <h3 class="text-2xl font-bold text-rose-600 mb-4">
+      Pelan-pelan ya…
+    </h3>
+
+    <p class="text-lg leading-relaxed text-slate-700">
+      Kalau hari ini terasa berat,<br>
+      ingat… kamu tidak sendirian.
+      <br><br>
+      Tarik napas pelan,<br>
+      izinkan dirimu berhenti sebentar.
+      <br><br>
+      Aku percaya kamu.
+    </p>
+
+    <p class="mt-6 text-sm text-pink-400 italic">
+      — Dari aku, untukmu 🤍
+    </p>
+
+    <button id="closeComfort"
+      class="mt-8 px-6 py-2 rounded-full
+             border border-rose-400
+             text-rose-500
+             hover:bg-rose-50 transition">
+      Tutup
+    </button>
+  </div>
+</div>
+
+<!-- ===== SCRIPT ===== -->
+<script>
+  const comfortBtn = document.getElementById('comfortBtn');
+  const comfortOverlay = document.getElementById('comfortOverlay');
+  const comfortBox = document.getElementById('comfortBox');
+  const closeComfort = document.getElementById('closeComfort');
+
+  comfortBtn.onclick = () => {
+    comfortOverlay.classList.remove('opacity-0','pointer-events-none');
+    comfortBox.classList.remove('scale-90');
+    comfortBox.classList.add('scale-100');
+  };
+
+  closeComfort.onclick = closeComfortModal;
+
+  comfortOverlay.addEventListener('click', (e) => {
+    if (e.target === comfortOverlay) closeComfortModal();
+  });
+
+  function closeComfortModal(){
+    comfortOverlay.classList.add('opacity-0','pointer-events-none');
+    comfortBox.classList.add('scale-90');
+  }
+</script>
+
+
+</body>
+
+</html>
